@@ -12,8 +12,6 @@ import {
 	ViewCollection,
 	icons
 } from 'ckeditor5';
-// TODO @Martin STUD-89 fix missing import
-//import LabeledInputView from '@ckeditor/ckeditor5-ui/src/labeledinput/labeledinputview';
 
 
 
