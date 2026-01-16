@@ -1,6 +1,4 @@
-import Plugin from '@ckeditor/ckeditor5-core/src/plugin';
-import Undo from '@ckeditor/ckeditor5-undo/src/undo';
-import global from '@ckeditor/ckeditor5-utils/src/dom/global';
+import { global, Plugin, Undo } from 'ckeditor5';
 
 export default class Test extends Plugin {
 	static get requires() {

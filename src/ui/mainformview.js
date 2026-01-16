@@ -1,19 +1,21 @@
-import View from '@ckeditor/ckeditor5-ui/src/view';
-import ViewCollection from '@ckeditor/ckeditor5-ui/src/viewcollection';
 
-import ButtonView from '@ckeditor/ckeditor5-ui/src/button/buttonview';
-import SwitchButtonView from '@ckeditor/ckeditor5-ui/src/button/switchbuttonview';
-import LabeledInputView from '@ckeditor/ckeditor5-ui/src/labeledinput/labeledinputview';
-import LabelView from '@ckeditor/ckeditor5-ui/src/label/labelview';
+import {
+	ButtonView,
+	FocusCycler,
+	FocusTracker,
+	KeystrokeHandler,
+	LabeledFieldView,
+	LabelView,
+	submitHandler,
+	SwitchButtonView,
+	View,
+	ViewCollection,
+	icons
+} from 'ckeditor5';
+// TODO @Martin STUD-89 fix missing import
+//import LabeledInputView from '@ckeditor/ckeditor5-ui/src/labeledinput/labeledinputview';
 
-import KeystrokeHandler from '@ckeditor/ckeditor5-utils/src/keystrokehandler';
-import FocusTracker from '@ckeditor/ckeditor5-utils/src/focustracker';
-import FocusCycler from '@ckeditor/ckeditor5-ui/src/focuscycler';
 
-import checkIcon from '@ckeditor/ckeditor5-core/theme/icons/check.svg';
-import cancelIcon from '@ckeditor/ckeditor5-core/theme/icons/cancel.svg';
-
-import submitHandler from '@ckeditor/ckeditor5-ui/src/bindings/submithandler';
 
 import {
 	delimitersAreAtBeginningAndEnd,
@@ -29,7 +31,8 @@ import MathView from './mathview';
 import '../../styles/mathform.css';
 import shortcuts from './shortcutsview';
 import MathInputView from "./mathinputview";
-
+const checkIcon = icons.check;
+const cancelIcon = icons.cancel;
 export default class MainFormView extends View {
 	constructor( document, locale, engine, lazyLoad, previewEnabled,
 				 previewUid, previewClassName, popupClassName, katexRenderOptions ) {
@@ -69,7 +72,8 @@ export default class MainFormView extends View {
 
 			// Math element
 			this.mathView = new MathView( engine, lazyLoad, locale, previewUid, previewClassName, katexRenderOptions );
-			this.mathView.bind( 'display' ).to( this.displayButtonView, 'isOn' );
+			this.mathView.set( 'display', false );
+            this.mathView.bind( 'display' ).to( this.displayButtonView);
 
 
 			children = [
@@ -147,15 +151,21 @@ export default class MainFormView extends View {
 	}
 
 	get equation() {
-		return this.mathInputView.inputView.element.textContent.trim();
+		return this.mathInputView.fieldView.element.textContent.trim();
 	}
 
 	set equation( equation ) {
-		this.mathInputView.inputView.element.textContent = equation;
+		this.mathInputView.fieldView.element.textContent = equation;
 		if ( this.previewEnabled ) {
 			this.mathView.value = equation;
 		}
-		this.mathInputView.inputView.select();
+		this.mathInputView.fieldView.element.focus();
+		const el = this.mathInputView.fieldView.element;
+		if ( el instanceof HTMLInputElement || el instanceof HTMLTextAreaElement ) {
+			console.log('el instanceof HTMLInputElement')
+			el.focus();
+			el.select();
+		}
 	}
 
 	_createKeyAndFocusTrackers() {
@@ -178,8 +188,8 @@ export default class MainFormView extends View {
 		const t = this.locale.t;
 
 		// Create equation input
-		const mathInput = new LabeledInputView( this.locale, MathInputView );
-		const inputView = mathInput.inputView;
+		const mathInput = new LabeledFieldView( this.locale, () => new MathInputView(this.locale));
+		const inputView = mathInput.fieldView;
 		inputView.template.attributes.id[0] = 'math-input-field';
 		mathInput.infoText = t( 'Insert equation in TeX format.' );
 

@@ -1,7 +1,4 @@
-import Plugin from '@ckeditor/ckeditor5-core/src/plugin';
-import Undo from '@ckeditor/ckeditor5-undo/src/undo';
-import LivePosition from '@ckeditor/ckeditor5-engine/src/model/liveposition';
-import global from '@ckeditor/ckeditor5-utils/src/dom/global';
+import { global, LivePosition, Plugin, Undo } from 'ckeditor5';
 
 import {
 	hasDelimiters,

@@ -1,12 +1,6 @@
 import Mathematics from '../src/math';
 import AutoMath from '../src/automath';
-import ClassicTestEditor from '@ckeditor/ckeditor5-core/tests/_utils/classictesteditor';
-import Clipboard from '@ckeditor/ckeditor5-clipboard/src/clipboard';
-import Paragraph from '@ckeditor/ckeditor5-paragraph/src/paragraph';
-import Undo from '@ckeditor/ckeditor5-undo/src/undo';
-import Typing from '@ckeditor/ckeditor5-typing/src/typing';
-import global from '@ckeditor/ckeditor5-utils/src/dom/global';
-import { getData, setData } from '@ckeditor/ckeditor5-engine/src/dev-utils/model';
+import { ClassicTestEditor, Clipboard, global, Paragraph, Typing, Undo, getData, setData } from 'ckeditor5';
 
 describe( 'AutoMath - integration', () => {
 	let editorElement, editor;

@@ -1,7 +1,5 @@
-import global from '@ckeditor/ckeditor5-utils/src/dom/global';
-import BalloonPanelView from '@ckeditor/ckeditor5-ui/src/panel/balloon/balloonpanelview';
+import { BalloonPanelView, global } from 'ckeditor5';
 import katex from "katex/dist/katex.mjs";
-import {indexOf} from "lodash";
 
 export function getSelectedMathModelWidget( selection ) {
 	if (selection == null) {
@@ -340,7 +338,7 @@ function moveElement( parent, child ) {
 	child.style.position = 'absolute';
 	child.style.left = left + 'px';
 	child.style.top = top + 'px';
-	child.style.zIndex = 'var(--ck-z-modal)';
+	child.style.zIndex = 'var(--ck-z-panel)';
 	child.style.pointerEvents = 'none';
 }
 

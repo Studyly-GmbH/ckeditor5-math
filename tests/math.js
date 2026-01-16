@@ -1,10 +1,8 @@
-import ClassicTestEditor from '@ckeditor/ckeditor5-core/tests/_utils/classictesteditor';
+import { ClassicTestEditor, global, Widget } from 'ckeditor5';
 import Mathematics from '../src/math';
 import MathEditing from '../src/mathediting';
 import MathUI from '../src/mathui';
 import AutoMath from '../src/automath';
-import Widget from '@ckeditor/ckeditor5-widget/src/widget';
-import global from '@ckeditor/ckeditor5-utils/src/dom/global';
 
 describe( 'Math', () => {
 	let editorElement, editor;

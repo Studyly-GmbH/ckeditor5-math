@@ -1,18 +1,18 @@
 /* globals document, Event  */
 
-import ClassicTestEditor from '@ckeditor/ckeditor5-core/tests/_utils/classictesteditor';
-import testUtils from '@ckeditor/ckeditor5-core/tests/_utils/utils';
-import { keyCodes } from '@ckeditor/ckeditor5-utils/src/keyboard';
-import { setData as setModelData } from '@ckeditor/ckeditor5-engine/src/dev-utils/model';
-
+import {
+	ButtonView,
+	ClassicTestEditor,
+	ClickObserver,
+	ContextualBalloon,
+	keyCodes,
+	Paragraph,
+	setData as setModelData,
+	testUtils,
+	View
+} from 'ckeditor5';
 import MathUI from '../src/mathui';
 import MainFormView from '../src/ui/mainformview';
-import ContextualBalloon from '@ckeditor/ckeditor5-ui/src/panel/balloon/contextualballoon';
-import ButtonView from '@ckeditor/ckeditor5-ui/src/button/buttonview';
-import View from '@ckeditor/ckeditor5-ui/src/view';
-import Paragraph from '@ckeditor/ckeditor5-paragraph/src/paragraph';
-
-import ClickObserver from '@ckeditor/ckeditor5-engine/src/view/observer/clickobserver';
 
 describe( 'MathUI', () => {
 	let editorElement, editor, mathUIFeature, mathButton, balloon, formView;
