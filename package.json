@@ -13,11 +13,11 @@
     "katex"
   ],
   "resolutions": {
-    "postcss-loader": "^4.0.0",
+    "postcss-loader": "^4.0.2",
     "mini-css-extract-plugin": "2.4.2"
   },
   "dependencies": {
-    "ckeditor5": "^42.0.0"
+    "ckeditor5": "^42.0.2"
   },
   "devDependencies": {
     "css-loader": "^5.2.4",
