@@ -63,7 +63,7 @@ export default class AutoMath extends Plugin {
 			if (this._notUndoableOperation === 0) {
 				// Stop executing next callbacks.
 				evt.stop();
-				modelDocument.fire('notUndoablePaste'); //TODO STU-1225: listen to this in webapp
+				modelDocument.fire('notUndoablePaste');
 				//evt.cancel();
 			} else if (this._notUndoableOperation !== -1) {
 				this._notUndoableOperation -= 1;

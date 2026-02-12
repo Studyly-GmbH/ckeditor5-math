@@ -17,7 +17,7 @@
     "mini-css-extract-plugin": "2.4.2"
   },
   "dependencies": {
-    "ckeditor5": "^42.0.2"
+    "ckeditor5": "^43.3.1"
   },
   "devDependencies": {
     "css-loader": "^5.2.4",
