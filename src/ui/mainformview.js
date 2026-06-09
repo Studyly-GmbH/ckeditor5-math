@@ -10,7 +10,8 @@ import {
 	SwitchButtonView,
 	View,
 	ViewCollection,
-	icons
+	IconCheck,
+	IconCancel
 } from 'ckeditor5';
 
 
@@ -29,8 +30,6 @@ import MathView from './mathview';
 import '../../styles/mathform.css';
 import shortcuts from './shortcutsview';
 import MathInputView from "./mathinputview";
-const checkIcon = icons.check;
-const cancelIcon = icons.cancel;
 export default class MainFormView extends View {
 	constructor( document, locale, engine, lazyLoad, previewEnabled,
 				 previewUid, previewClassName, popupClassName, katexRenderOptions ) {
@@ -46,7 +45,7 @@ export default class MainFormView extends View {
 		this._createKeyAndFocusTrackers();
 
 		// Submit button
-		this.saveButtonView = this._createButton( t( 'Save' ), checkIcon, 'ck-button-save', null );
+		this.saveButtonView = this._createButton( t( 'Save' ), IconCheck, 'ck-button-save', null );
 		this.saveButtonView.type = 'submit';
 
 		// Equation input
@@ -58,7 +57,7 @@ export default class MainFormView extends View {
 		this.keepOpenButtonView = this._createKeepOpenButton();
 
 		// Cancel button
-		this.cancelButtonView = this._createButton( t( 'Cancel' ), cancelIcon, 'ck-button-cancel', 'cancel' );
+		this.cancelButtonView = this._createButton( t( 'Cancel' ), IconCancel, 'ck-button-cancel', 'cancel' );
 
 		this.previewEnabled = previewEnabled;
 
