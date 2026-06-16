@@ -1,4 +1,4 @@
-import { global, LivePosition, Plugin, Undo } from 'ckeditor5';
+import { global, ModelLivePosition, Plugin, Undo } from 'ckeditor5';
 
 import {
 	hasDelimiters,
@@ -44,7 +44,7 @@ export default class AutoMath extends Plugin {
 			const rightPosition = firstRange.end;
 			rightPosition.stickiness = 'toNext';
 
-			const rightLivePosition = LivePosition.fromPosition( firstRange.end );
+			const rightLivePosition = ModelLivePosition.fromPosition( firstRange.end );
 			rightLivePosition.stickiness = 'toNext';
 
 			modelDocument.once('change:data', () => {
