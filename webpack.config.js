@@ -2,7 +2,6 @@ const path = require("path");
 const { styles } = require("@ckeditor/ckeditor5-dev-utils");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-
 module.exports = {
 	// https://webpack.js.org/configuration/entry-context/
 	entry: "./demo/app.js",
@@ -31,35 +30,60 @@ module.exports = {
 		}),
 	],
 
-	module: {
-		rules: [
-			{
-				// test: /ckeditor5-[^/\\]+[/\\]theme[/\\]icons[/\\][^/\\]+\.svg$/,
-				test: /\.svg$/,
-				use: ["raw-loader"],
-			},
-			{
-				test: /ckeditor5-[^/\\]+[/\\]theme[/\\].+\.css$/,
-				use: [
-					MiniCssExtractPlugin.loader,
-					"css-loader",
-					{
-						loader: "postcss-loader",
-						options: {
-							postcssOptions: styles.getPostCssConfig({
-								themeImporter: {
-									themePath: require.resolve(
-										"@ckeditor/ckeditor5-theme-lark"
-									),
-								},
-								minify: true,
-							}),
-						},
-					},
-				],
-			},
-		],
-	},
+module: {
+    rules: [
+        {
+            test: /\.svg$/,
+            type: 'asset/source'
+        },
+
+        // CKEditor package CSS only.
+        {
+            test: /node_modules[/\\]@ckeditor[/\\]ckeditor5-[^/\\]+[/\\]theme[/\\].+\.css$/,
+            use: [
+                MiniCssExtractPlugin.loader,
+                {
+                    loader: 'css-loader',
+                    options: {
+                        importLoaders: 1
+                    }
+                },
+                {
+                    loader: 'postcss-loader',
+                    options: {
+                        postcssOptions: styles.getPostCssConfig( {
+                            minify: true
+                        } )
+                    }
+                }
+            ]
+        },
+
+        // Your custom plugin CSS: ./styles/*.css, ./theme/*.css, etc.
+        {
+            test: /\.css$/,
+            exclude: /node_modules[/\\]@ckeditor[/\\]ckeditor5-[^/\\]+[/\\]theme[/\\].+\.css$/,
+            use: [
+                MiniCssExtractPlugin.loader,
+                {
+                    loader: 'css-loader',
+                    options: {
+                        importLoaders: 0,
+                        url: false
+                    }
+                },
+                {
+                    loader: 'postcss-loader',
+                    options: {
+                        postcssOptions: {
+                            plugins: []
+                        }
+                    }
+                }
+            ]
+        }
+    ]
+},
 
 	// Useful for debugging.
 	devtool: "source-map",
