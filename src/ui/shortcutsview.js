@@ -107,12 +107,10 @@ function pasteHtmlAtCaret(html, selectPastedContent) {
 				sel.removeAllRanges();
 				sel.addRange(range);
 			}
-			console.log(inputField)
 			inputField.fieldView.fire('input');
 		}
 	} else { // if selection is not in math input, just append it to the field
 		document.querySelector('#math-input-field').textContent += html;
-		console.log(inputField);
 		inputField.fieldView.fire('input');
 	}
 }

@@ -5,7 +5,7 @@ msgstr ""
 "Plural-Forms: \n"
 
 msgid "Display mode"
-msgstr "Display moduuussse"
+msgstr "Display mode"
 
 msgid "Insert equation in TeX format."
 msgstr "Insert equation in TeX format."
@@ -20,7 +20,7 @@ msgid "Cancel"
 msgstr "Cancel"
 
 msgid "Insert math"
-msgstr "ich füge die mathe formel ein"
+msgstr "Insert math"
 
 msgid "Keep window open"
 msgstr "Keep window open"
