@@ -152,7 +152,7 @@ export function delimitersAreAtBeginningAndEnd( mathFormulas ) {
 
 export async function renderEquation(
 	equation, element, engine = 'katex', lazyLoad, display = false, preview = false, previewUid, previewClassName = [],
-	katexRenderOptions = {}
+	katexRenderOptions
 ) {
 	if ( engine === 'mathjax' && typeof MathJax !== 'undefined' ) {
 		if ( isMathJaxVersion3( MathJax.version ) ) {
@@ -184,12 +184,26 @@ export async function renderEquation(
 	} else if ( engine === 'katex' && typeof katex !== 'undefined' ) {
 
 		equation = replaceInputPlacehodlers(equation);
+		const configuredOptions = katexRenderOptions;
+		const rawMacros = configuredOptions?.macros ?? {};
+		const safeMacros = Object.create( Object.prototype );
+
+		for ( const key of Object.keys( rawMacros ) ) {
+			safeMacros[ key ] = rawMacros[ key ];
+		}
+
+		const safeKatexOptions = {
+			...( configuredOptions ?? {} ),
+			macros: safeMacros,
+			display,
+			throwOnError: true
+		};
 
 		selectRenderMode( element, preview, previewUid, previewClassName, el => {
 			katex.render( equation, el, {
 				throwOnError: false,
 				displayMode: display,
-				...katexRenderOptions
+				...safeKatexOptions
 			} );
 			if ( preview ) {
 				moveAndScaleElement( element, el );
