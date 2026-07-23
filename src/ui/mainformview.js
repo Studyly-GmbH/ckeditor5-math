@@ -159,7 +159,6 @@ export default class MainFormView extends View {
 		this.mathInputView.fieldView.element.focus();
 		const el = this.mathInputView.fieldView.element;
 		if ( el instanceof HTMLInputElement || el instanceof HTMLTextAreaElement ) {
-			console.log('el instanceof HTMLInputElement')
 			el.focus();
 			el.select();
 		}
