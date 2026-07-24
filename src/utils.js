@@ -196,7 +196,7 @@ export async function renderEquation(
 			...( configuredOptions ?? {} ),
 			macros: safeMacros,
 			display,
-			throwOnError: true
+			throwOnError: false
 		};
 
 		selectRenderMode( element, preview, previewUid, previewClassName, el => {
