@@ -1,10 +1,8 @@
-import { ListView } from '@ckeditor/ckeditor5-ui';
-import View from '@ckeditor/ckeditor5-ui/src/view';
+import { ListView, View } from 'ckeditor5';
 import { groupBy } from 'lodash';
 import svgIcons from '../../assets/math-shortcut-icons';
-import global from "@ckeditor/ckeditor5-utils/src/dom/global";
 //TODO: language with t('')
-// choosen category
+// chosen category
 let activeCategory = 'Allgemein';
 let inputField = null;
 let previewField = null;
@@ -109,11 +107,11 @@ function pasteHtmlAtCaret(html, selectPastedContent) {
 				sel.removeAllRanges();
 				sel.addRange(range);
 			}
-			inputField.inputView.fire('input');
+			inputField.fieldView.fire('input');
 		}
 	} else { // if selection is not in math input, just append it to the field
 		document.querySelector('#math-input-field').textContent += html;
-		inputField.inputView.fire('input');
+		inputField.fieldView.fire('input');
 	}
 }
 

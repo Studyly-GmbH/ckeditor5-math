@@ -1,7 +1,4 @@
-import Plugin from '@ckeditor/ckeditor5-core/src/plugin';
-import Undo from '@ckeditor/ckeditor5-undo/src/undo';
-import LivePosition from '@ckeditor/ckeditor5-engine/src/model/liveposition';
-import global from '@ckeditor/ckeditor5-utils/src/dom/global';
+import { global, ModelLivePosition, Plugin, Undo } from 'ckeditor5';
 
 import {
 	hasDelimiters,
@@ -47,7 +44,7 @@ export default class AutoMath extends Plugin {
 			const rightPosition = firstRange.end;
 			rightPosition.stickiness = 'toNext';
 
-			const rightLivePosition = LivePosition.fromPosition( firstRange.end );
+			const rightLivePosition = ModelLivePosition.fromPosition( firstRange.end );
 			rightLivePosition.stickiness = 'toNext';
 
 			modelDocument.once('change:data', () => {
@@ -66,7 +63,7 @@ export default class AutoMath extends Plugin {
 			if (this._notUndoableOperation === 0) {
 				// Stop executing next callbacks.
 				evt.stop();
-				modelDocument.fire('notUndoablePaste'); //TODO STU-1225: listen to this in webapp
+				modelDocument.fire('notUndoablePaste');
 				//evt.cancel();
 			} else if (this._notUndoableOperation !== -1) {
 				this._notUndoableOperation -= 1;

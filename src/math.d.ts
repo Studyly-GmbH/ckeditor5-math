@@ -1,4 +1,4 @@
-import { Plugin } from '@ckeditor/ckeditor5-core';
+import { Plugin } from 'ckeditor5';
 
 declare module "ckeditor5-math" {
 	export default class Math extends Plugin {}

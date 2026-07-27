@@ -1,5 +1,4 @@
-import View from "@ckeditor/ckeditor5-ui/src/view";
-import FocusTracker from "@ckeditor/ckeditor5-utils/src/focustracker";
+import { View, FocusTracker } from 'ckeditor5'
 
 /*
 	copy of InputView of ckeditor/ckeditor5-ui/src/input/inputview.js where

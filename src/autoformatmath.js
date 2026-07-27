@@ -1,7 +1,4 @@
-import Plugin from '@ckeditor/ckeditor5-core/src/plugin';
-import Autoformat from '@ckeditor/ckeditor5-autoformat/src/autoformat';
-import blockAutoformatEditing from '@ckeditor/ckeditor5-autoformat/src/blockautoformatediting';
-
+import { Autoformat, blockAutoformatEditing, Plugin } from 'ckeditor5';
 import Math from './math';
 
 export default class AutoformatMath extends Plugin {
@@ -12,12 +9,12 @@ export default class AutoformatMath extends Plugin {
 	afterInit() {
 		const editor = this.editor;
 		const command = editor.commands.get( 'math' );
-
+ 		const autoformat = editor.plugins.get( 'Autoformat' );
 		if ( command ) {
 			const mathBlockCallback = getCallbackFunctionForBlockAutoformat( editor, command );
 
-			blockAutoformatEditing( editor, this, /^\\\[$/, mathBlockCallback );
-			blockAutoformatEditing( editor, this, /^\$\$$/, mathBlockCallback );
+			blockAutoformatEditing(editor, Autoformat,/^\\\[$/, mathBlockCallback);
+			blockAutoformatEditing(editor, Autoformat,/^\$\$$/, mathBlockCallback);
 		}
 	}
 

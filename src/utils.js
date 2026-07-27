@@ -1,7 +1,5 @@
-import global from '@ckeditor/ckeditor5-utils/src/dom/global';
-import BalloonPanelView from '@ckeditor/ckeditor5-ui/src/panel/balloon/balloonpanelview';
+import { BalloonPanelView, global } from 'ckeditor5';
 import katex from "katex/dist/katex.mjs";
-import {indexOf} from "lodash";
 
 export function getSelectedMathModelWidget( selection ) {
 	if (selection == null) {
@@ -154,7 +152,7 @@ export function delimitersAreAtBeginningAndEnd( mathFormulas ) {
 
 export async function renderEquation(
 	equation, element, engine = 'katex', lazyLoad, display = false, preview = false, previewUid, previewClassName = [],
-	katexRenderOptions = {}
+	katexRenderOptions
 ) {
 	if ( engine === 'mathjax' && typeof MathJax !== 'undefined' ) {
 		if ( isMathJaxVersion3( MathJax.version ) ) {
@@ -186,12 +184,26 @@ export async function renderEquation(
 	} else if ( engine === 'katex' && typeof katex !== 'undefined' ) {
 
 		equation = replaceInputPlacehodlers(equation);
+		const configuredOptions = katexRenderOptions;
+		const rawMacros = configuredOptions?.macros ?? {};
+		const safeMacros = Object.create( Object.prototype );
+
+		for ( const key of Object.keys( rawMacros ) ) {
+			safeMacros[ key ] = rawMacros[ key ];
+		}
+
+		const safeKatexOptions = {
+			...( configuredOptions ?? {} ),
+			macros: safeMacros,
+			display,
+			throwOnError: false
+		};
 
 		selectRenderMode( element, preview, previewUid, previewClassName, el => {
 			katex.render( equation, el, {
 				throwOnError: false,
 				displayMode: display,
-				...katexRenderOptions
+				...safeKatexOptions
 			} );
 			if ( preview ) {
 				moveAndScaleElement( element, el );
@@ -340,7 +352,7 @@ function moveElement( parent, child ) {
 	child.style.position = 'absolute';
 	child.style.left = left + 'px';
 	child.style.top = top + 'px';
-	child.style.zIndex = 'var(--ck-z-modal)';
+	child.style.zIndex = 'var(--ck-z-panel)';
 	child.style.pointerEvents = 'none';
 }
 
