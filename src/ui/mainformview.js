@@ -15,7 +15,6 @@ import {
 } from 'ckeditor5';
 
 
-
 import {
 	delimitersAreAtBeginningAndEnd,
 	delimitersAreMatching,
@@ -184,7 +183,7 @@ export default class MainFormView extends View {
 		const t = this.locale.t;
 
 		// Create equation input
-		const mathInput = new LabeledFieldView( this.locale, () => new MathInputView(this.locale));
+			const mathInput = new LabeledFieldView( this.locale, () => new MathInputView(this.locale));
 		const inputView = mathInput.fieldView;
 		inputView.template.attributes.id[0] = 'math-input-field';
 		mathInput.infoText = t( 'Insert equation in TeX format.' );
