@@ -155,12 +155,8 @@ export default class MainFormView extends View {
 		if ( this.previewEnabled ) {
 			this.mathView.value = equation;
 		}
-		this.mathInputView.fieldView.element.focus();
-		const el = this.mathInputView.fieldView.element;
-		if ( el instanceof HTMLInputElement || el instanceof HTMLTextAreaElement ) {
-			el.focus();
-			el.select();
-		}
+		this.mathInputView.fieldView.focus();
+		this.mathInputView.fieldView.select();
 	}
 
 	_createKeyAndFocusTrackers() {
@@ -183,7 +179,7 @@ export default class MainFormView extends View {
 		const t = this.locale.t;
 
 		// Create equation input
-			const mathInput = new LabeledFieldView( this.locale, () => new MathInputView(this.locale));
+		const mathInput = new LabeledFieldView( this.locale, () => new MathInputView(this.locale));
 		const inputView = mathInput.fieldView;
 		inputView.template.attributes.id[0] = 'math-input-field';
 		mathInput.infoText = t( 'Insert equation in TeX format.' );
