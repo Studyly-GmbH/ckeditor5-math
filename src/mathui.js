@@ -142,6 +142,8 @@ export default class MathUI extends Plugin {
 			position: getBalloonPositionData( editor )
 		} );
 
+		this._startFreezingBalloonPosition();
+
 		if ( this._balloon.visibleView === this.formView ) {
 			this.formView.mathInputView.fieldView.focus();
 		}
@@ -165,7 +167,6 @@ export default class MathUI extends Plugin {
 		const editor = this.editor;
 
 		this.stopListening( editor.ui, 'update' );
-		this.stopListening( this._balloon, 'change:visibleView' );
 
 		editor.editing.view.focus();
 
@@ -186,6 +187,8 @@ export default class MathUI extends Plugin {
 	_removeFormView() {
 		if ( this._isFormInPanel ) {
 			//this.formView.saveButtonView.focus();
+
+			this._stopFreezingBalloonPosition();
 
 			this._balloon.remove( this.formView );
 
@@ -277,6 +280,85 @@ export default class MathUI extends Plugin {
 				}
 			}
 		} );
+	}
+
+	_keepBalloonPanelVisible() {
+		const balloonView = this._balloon.view;
+
+		balloonView.isVisible = true;
+		balloonView.element?.classList.add( 'ck-balloon-panel_visible' );
+	}
+
+	_startFreezingBalloonPosition() {
+		const balloonView = this._balloon.view;
+
+		if ( this._originalAttachTo ) {
+			return;
+		}
+
+		this._keepBalloonPanelVisible();
+
+		this._originalAttachTo = balloonView.attachTo.bind( balloonView );
+		this._originalHide = balloonView.hide.bind( balloonView );
+		this._lastGoodBalloonTop = balloonView.top;
+		this._lastGoodBalloonLeft = balloonView.left;
+
+		balloonView.attachTo = ( options ) => {
+			// First pin already placed the form. Do not follow the formula or apply POSITION_OFF_SCREEN.
+			if ( this._isUIVisible ) {
+				this._keepBalloonPanelVisible();
+				return true;
+			}
+			return this._originalAttachTo( options );
+		};
+
+		balloonView.hide = () => {
+			if ( this._isUIVisible ) {
+				this._keepBalloonPanelVisible();
+				return;
+			}
+
+			return this._originalHide();
+		};
+
+		this._onBalloonPositionChange = () => {
+			if ( !this._isUIVisible ) {
+				return;
+			}
+
+			this._keepBalloonPanelVisible();
+
+			if ( balloonView.top !== -99999 && balloonView.left !== -99999 ) {
+				this._lastGoodBalloonTop = balloonView.top;
+				this._lastGoodBalloonLeft = balloonView.left;
+				return;
+			}
+
+			balloonView.top = this._lastGoodBalloonTop;
+			balloonView.left = this._lastGoodBalloonLeft;
+		};
+
+		this.listenTo( balloonView, 'change:top', this._onBalloonPositionChange );
+		this.listenTo( balloonView, 'change:left', this._onBalloonPositionChange );
+	}
+
+	_stopFreezingBalloonPosition() {
+		if ( !this._originalAttachTo ) {
+			return;
+		}
+
+		if ( this._onBalloonPositionChange ) {
+			this.stopListening( this._balloon.view, 'change:top', this._onBalloonPositionChange );
+			this.stopListening( this._balloon.view, 'change:left', this._onBalloonPositionChange );
+			this._onBalloonPositionChange = null;
+		}
+
+		this._balloon.view.attachTo = this._originalAttachTo;
+		this._balloon.view.hide = this._originalHide;
+		this._originalAttachTo = null;
+		this._originalHide = null;
+		this._lastGoodBalloonTop = null;
+		this._lastGoodBalloonLeft = null;
 	}
 
 	get _isUIVisible() {
