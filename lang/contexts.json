@@ -5,5 +5,6 @@
   "Save": "button for saving formula",
   "Cancel": "button for cancelling formula",
   "Insert math": "Toolbar tooltip",
-  "Keep window open": "Description for switch that keeps math-window open"
+  "Keep window open": "Description for switch that keeps math-window open",
+  "Invalid LaTeX: %0": "Warning below the preview when KaTeX cannot parse the formula; %0 is the KaTeX error message"
 }

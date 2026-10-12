@@ -24,3 +24,6 @@ msgstr "Insert math"
 
 msgid "Keep window open"
 msgstr "Keep window open"
+
+msgid "Invalid LaTeX: %0"
+msgstr "Invalid LaTeX: %0"

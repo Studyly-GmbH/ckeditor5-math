@@ -24,3 +24,6 @@ msgstr "Formel einsetzen"
 
 msgid "Keep window open"
 msgstr "Fenster offen lassen"
+
+msgid "Invalid LaTeX: %0"
+msgstr "Ungültiges LaTeX: %0"
