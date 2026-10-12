@@ -71,6 +71,7 @@ export default class MainFormView extends View {
 			this.mathView.set( 'display', false );
             this.mathView.bind( 'display' ).to( this.displayButtonView);
 
+			this.previewWarningView = this._createPreviewWarning();
 
 			children = [
 				this.mathInputView,
@@ -78,6 +79,7 @@ export default class MainFormView extends View {
 				this.keepOpenButtonView,
 				this.previewLabel,
 				this.mathView,
+				this.previewWarningView,
 				shortcuts(this.mathInputView, this.mathView),
 			];
 		} else {
@@ -218,6 +220,32 @@ export default class MainFormView extends View {
 		mathInput.render();
 
 		return mathInput;
+	}
+
+	_createPreviewWarning() {
+		const t = this.locale.t;
+		const warningView = new View( this.locale );
+		warningView.bind( 'parseError' ).to( this.mathView );
+		const bind = warningView.bindTemplate;
+
+		warningView.setTemplate( {
+			tag: 'div',
+			attributes: {
+				class: [
+					'ck',
+					'ck-math-preview-warning',
+					bind.if( 'parseError', 'ck-hidden', parseError => !parseError )
+				],
+				role: 'alert'
+			},
+			children: [
+				{
+					text: bind.to( 'parseError', parseError => parseError ? t( 'Invalid LaTeX: %0', [ parseError ] ) : '' )
+				}
+			]
+		} );
+
+		return warningView;
 	}
 
 	_createButton( label, icon, className, eventName ) {

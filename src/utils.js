@@ -184,20 +184,7 @@ export async function renderEquation(
 	} else if ( engine === 'katex' && typeof katex !== 'undefined' ) {
 
 		equation = replaceInputPlacehodlers(equation);
-		const configuredOptions = katexRenderOptions;
-		const rawMacros = configuredOptions?.macros ?? {};
-		const safeMacros = Object.create( Object.prototype );
-
-		for ( const key of Object.keys( rawMacros ) ) {
-			safeMacros[ key ] = rawMacros[ key ];
-		}
-
-		const safeKatexOptions = {
-			...( configuredOptions ?? {} ),
-			macros: safeMacros,
-			display,
-			throwOnError: false
-		};
+		const safeKatexOptions = buildKatexOptions( katexRenderOptions, display );
 
 		selectRenderMode( element, preview, previewUid, previewClassName, el => {
 			katex.render( equation, el, {
@@ -231,6 +218,39 @@ export async function renderEquation(
 			console.warn( `math-tex-typesetting-missing: Missing the mathematical typesetting engine (${ engine }) for tex.` );
 		}
 	}
+}
+
+// The preview renders leniently (throwOnError: false), which hides errors that break strict renderers like the webapp viewer
+export function getKatexParseError( equation, display, katexRenderOptions ) {
+	try {
+		katex.renderToString( replaceInputPlacehodlers( equation ), {
+			...buildKatexOptions( katexRenderOptions, display ),
+			displayMode: display,
+			throwOnError: true
+		} );
+		return null;
+	} catch ( error ) {
+		if ( error instanceof katex.ParseError ) {
+			return error.rawMessage;
+		}
+		throw error;
+	}
+}
+
+function buildKatexOptions( katexRenderOptions, display ) {
+	const rawMacros = katexRenderOptions?.macros ?? {};
+	const safeMacros = Object.create( Object.prototype );
+
+	for ( const key of Object.keys( rawMacros ) ) {
+		safeMacros[ key ] = rawMacros[ key ];
+	}
+
+	return {
+		...( katexRenderOptions ?? {} ),
+		macros: safeMacros,
+		display,
+		throwOnError: false
+	};
 }
 
 export function getBalloonPositionData( editor ) {

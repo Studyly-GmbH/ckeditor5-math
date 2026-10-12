@@ -37,6 +37,14 @@
 	max-width: 800px;
 }
 
+.ck.ck-math-preview-warning {
+	margin-top: .25rem;
+	color: var(--color-incorrect);
+	font-size: .85em;
+	white-space: normal;
+	overflow-wrap: anywhere;
+}
+
 .ck-math-tex.ck-placeholder::before {
 	display: none !important;
 }
