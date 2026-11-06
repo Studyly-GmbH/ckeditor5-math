@@ -12,8 +12,7 @@
     "ckeditor5-math",
     "katex"
   ],
-  "resolutions": {
-  },
+  "resolutions": {},
   "dependencies": {
     "ckeditor5": "48.5.2"
   },
