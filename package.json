@@ -12,10 +12,9 @@
     "ckeditor5-math",
     "katex"
   ],
-  "resolutions": {
-  },
+  "resolutions": {},
   "dependencies": {
-    "ckeditor5": "48.1.0"
+    "ckeditor5": "48.5.2"
   },
   "devDependencies": {
     "lodash": "^4.18.1"
